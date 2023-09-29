@@ -16,6 +16,10 @@
 
 -   GnuPG に登録する。
 -   下記コマンドを実行し、GnuPG のパスフレーズをファイルに保存しておく。
-    `echo <your_passphrase> > passphrase.txt`
+    ```
+    echo <your_passphrase> > passphrase.txt
+    ```
 -   機密性を保つために、下記コマンドを実行し、パスフレーズのファイルの権限管理をしておく。
-    `chmod go-rwx passphrase.txt`
+    ```
+    chmod go-rwx passphrase.txt
+    ```
