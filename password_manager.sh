@@ -2,6 +2,15 @@
 
 echo "パスワードマネージャーへようこそ！"
 
+FILE=database.txt.gpg
+
+# 暗号化ファイルが存在しない場合は作成
+if [ ! -e $FILE ]; then
+    touch database.txt
+    cat passphrase.txt | gpg --passphrase-fd 0 --batch --yes -c database.txt
+    shred -u database.txt
+fi
+
 while [ true ]
 do
     # 変数を初期化
@@ -29,10 +38,10 @@ do
             
             # ファイルを暗号化
             # GPG パスフレーズを渡して、バッチ処理で database.txt を暗号化した database.txt.gpg 作成
-						# database.txt.gpg がすでに存在しているというエラーを無視して上書きするために --yes を記述
+			# database.txt.gpg がすでに存在しているというエラーを無視して上書きするために --yes を記述
             cat passphrase.txt | gpg --passphrase-fd 0 --batch --yes -c database.txt
             
-            # database.txt を削除
+            # database.txt を上書きして安全に削除
             shred -u database.txt
 
             echo -e "\nパスワードの追加は成功しました。"
@@ -70,9 +79,9 @@ do
             break
         ;;
 
-        *)
-        # 選択がどれにも当てはまらない場合
-        echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
+        * )
+            # 選択がどれにも当てはまらない場合
+            echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
         ;;
     esac
 
